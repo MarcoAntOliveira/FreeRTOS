@@ -3,8 +3,8 @@
  ************************************/
 
 #include <Arduino.h>
-#include <FreeRTOS.h>
-#include <task.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 
 #define LED 2
@@ -12,16 +12,14 @@
 TaskHandle_t task1Handle = NULL;
 TaskHandle_t task2Handle = NULL;
 
-/*Prototípos das tasks*/
-TaskHandle_t task1Handle = Null;
 void vTask1(void *pvParameters);
 void vTask2(void *pvParameters);
 
 
 void setup() {
-    
-    xTaskCreate(vTask1, "TASK1", configMINIMAL_STACK_SIZE, NULL, 1, &taskslHandle);
-    xTaskCreate(vTask1, "TASK1", configMINIMAL_STACK_SIZE + 1024, NULL, 1, &taskslHandle);
+
+    xTaskCreate(vTask1, "TASK1", configMINIMAL_STACK_SIZE, NULL, 1, &task1Handle);
+    xTaskCreate(vTask2, "TASK2", configMINIMAL_STACK_SIZE + 1024, NULL, 1, &task2Handle);
 }
 
 void loop() {
@@ -42,7 +40,7 @@ void vTask2(void *pvParameters)
 {   int count = 0;
     while (1)
     {
-        serial.println("Task 2:" + String(count++));
+        Serial.println("Task 2:" + String(count++));
          vTaskDelay(pdMS_TO_TICKS(1000));
 
     }
